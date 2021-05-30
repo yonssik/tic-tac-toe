@@ -1,0 +1,11 @@
+.cell {
+    width: 70px;
+    height: 70px;
+    outline: 1px solid aqua;
+    font-size: 70px;
+    text-align: center;
+}
+
+:hover .cell {
+    cursor: pointer;
+}

@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+
+import Board from './containers/Board/Board';
+import Inputs from './containers/Inputs/Inputs';
+import { GameContext } from './Contexts/inputsContext';
 
 function App() {
+  const [gameContext, setGameContext] = useState({
+    winStreak: 3,
+    boardSize: 3
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GameContext.Provider value={[gameContext, setGameContext]}>
+        <div style={{display: "flex", flexDirection: "column", gap: "20px"}}>
+          <Inputs />
+          <Board />
+        </div>
+    </GameContext.Provider>
   );
 }
 
