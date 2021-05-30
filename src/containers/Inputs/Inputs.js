@@ -17,29 +17,33 @@ const Inputs = (props) => {
     }, [gameContext]);
 
     const onStartGameHandler = () => {
-        if(boardSize > MAX_BOARD_SIZE) {
-            setError('The MAX board size can\'t be greather than 20!');
-            return;
+        if (!isNaN(boardSize) && !isNaN(winRowStreak)) {
+            if( boardSize > MAX_BOARD_SIZE) {
+                setError('The MAX board size can\'t be greather than 20!');
+                return;
+            }
+            else if (boardSize < MIN_BOARD_SIZE) {
+                setError('The MIN board size can\'t be less than 3!');
+                return;
+            }
+            if (winRowStreak > boardSize) {
+                setError('Row streak can\'t be bigger than a board size');
+                return;
+            }
+            if (winRowStreak < MIN_BOARD_SIZE) {
+                setError('Row streak can\'t be less than a 3');
+                return;
+            }
+    
+            setError('');
+            setGameContext({
+                boardSize,
+                winRowStreak,
+                reset: !gameContext.reset
+            });
+        } else {
+            setError("You can enter only numbers!");
         }
-        else if(boardSize < MIN_BOARD_SIZE) {
-            setError('The MIN board size can\'t be less than 3!');
-            return;
-        }
-        if (winRowStreak > boardSize) {
-            setError('Row streak can\'t be bigger than a board size');
-            return;
-        }
-        if (winRowStreak < MIN_BOARD_SIZE) {
-            setError('Row streak can\'t be less than a 3');
-            return;
-        }
-
-        setError('');
-        setGameContext({
-            boardSize,
-            winRowStreak,
-            reset: !gameContext.reset
-        });
     }
 
     return (
@@ -52,7 +56,7 @@ const Inputs = (props) => {
                 <label>Row To Win: </label>
                 <input type="number" defaultValue="3" onChange={e => setWinRowStreak(parseInt(e.target.value))} />
             </div>
-            {error !== '' ? <p style={{color: "red"}}>{error}</p> : null}
+            {error !== '' ? <p style={{color: "red", margin: 0}}>{error}</p> : null}
             <button className={styles.btn} onClick={onStartGameHandler}>Start Game / Reset</button>
         </div>
     );
